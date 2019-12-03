@@ -12,8 +12,6 @@ namespace IbaraStatistics.Data
 {
     public class CharacterStatsService
     {
-       
-
         public async Task<CharacterStats> GetCharacterStats_Pejuta(String path)
         {
             var scraper = new HtmlScraper();

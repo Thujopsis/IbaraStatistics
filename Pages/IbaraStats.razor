@@ -6,7 +6,7 @@
 
 <h3>キャラクターステータス</h3>
 
-@if (CharacterStatsService == null)
+@if (workIbaraCharacterStats == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -26,19 +26,19 @@ else
             <tr>
                 <td>@workIbaraCharacterStats.Eno</td>
                 <td>@workIbaraCharacterStats.CharacterName</td>
-                <td>@workIbaraCharacterStats.Extraordinary</td>
-                <td>@workIbaraCharacterStats.Item</td>
-                <td>@workIbaraCharacterStats.Skill</td>
+                <td>@string.Join(", ", workIbaraCharacterStats.Extraordinary)</td>
+                <td>@string.Join(", ", workIbaraCharacterStats.Item)</td>
+                <td>@string.Join(", ", workIbaraCharacterStats.Skill)</td>
             </tr>
         </tbody>
     </table>
 }
 
 @code {
-    CharacterStats workIbaraCharacterStats;
+    CharacterStats workIbaraCharacterStats = null;
 
     protected override async Task OnInitializedAsync()
     {
-        workIbaraCharacterStats = await CharacterStatsService.GetCharacterStats_Pejuta("‪http://lisge.com/ib/k/now/r989.html");
+        workIbaraCharacterStats = await CharacterStatsService.GetCharacterStats_Pejuta("http://lisge.com/ib/k/now/r989.html");
     }
 }
