@@ -1,0 +1,44 @@
+﻿@page "/IbaraStats"
+
+@using IbaraStatistics.Data
+@inject CharacterStatsService CharacterStatsService
+
+
+<h3>キャラクターステータス</h3>
+
+@if (CharacterStatsService == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Eno</th>
+                <th>CharacterName</th>
+                <th>Extraordinary</th>
+                <th>Item</th>
+                <th>Skill</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@workIbaraCharacterStats.Eno</td>
+                <td>@workIbaraCharacterStats.CharacterName</td>
+                <td>@workIbaraCharacterStats.Extraordinary</td>
+                <td>@workIbaraCharacterStats.Item</td>
+                <td>@workIbaraCharacterStats.Skill</td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+@code {
+    CharacterStats workIbaraCharacterStats;
+
+    protected override async Task OnInitializedAsync()
+    {
+        workIbaraCharacterStats = await CharacterStatsService.GetCharacterStats_Pejuta("‪http://lisge.com/ib/k/now/r989.html");
+    }
+}
