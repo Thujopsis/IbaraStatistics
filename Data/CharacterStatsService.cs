@@ -12,10 +12,18 @@ namespace IbaraStatistics.Data
 {
     public class CharacterStatsService
     {
-        public async Task<CharacterStats> GetCharacterStats_Pejuta(String path)
+        public async Task<CharacterStats> GetCharacterStats_Pejuta(String path,bool localflg)
         {
             var scraper = new HtmlScraper();
-            var document = await scraper.Scrape(path).ConfigureAwait(true);
+            IHtmlDocument document;
+            if (localflg == true)
+            {
+                document = await scraper.Scrape(path,true).ConfigureAwait(true);
+            }
+            else
+            {
+                document = await scraper.Scrape(path,false).ConfigureAwait(true);
+            }
             var ceno = document.QuerySelector<IHtmlDivElement>("div.CEN");
             string eno = new Regex("\\d+$").Match(ceno.InnerHtml).Groups[0].Value;
 
@@ -44,7 +52,7 @@ namespace IbaraStatistics.Data
 
             return new CharacterStats()
             {
-                Eno           = eno,
+                Eno           = int.Parse(eno),
                 CharacterName = name,
                 Extraordinary = exs,
                 Item          = itms,

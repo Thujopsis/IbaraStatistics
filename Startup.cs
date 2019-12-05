@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using IbaraStatistics.Data;
+using IbaraStatistics.Models;
 
 namespace IbaraStatistics
 {
@@ -30,6 +31,9 @@ namespace IbaraStatistics
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<CharacterStatsService>();
+
+            services.AddMvc();
+            services.AddDbContext<IbaraDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

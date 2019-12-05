@@ -39,6 +39,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        workIbaraCharacterStats = await CharacterStatsService.GetCharacterStats_Pejuta("http://lisge.com/ib/k/now/r989.html");
+        var url = @"C:\Users\playn\source\repos\IbaraStatistics\html\[989] ソーンブラウン＝バレッタ－.html";
+        workIbaraCharacterStats = await CharacterStatsService.GetCharacterStats_Pejuta(url,true);
     }
 }

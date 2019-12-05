@@ -8,7 +8,7 @@ namespace IbaraStatistics.Data
     public class CharacterStats
     {
         // Eno
-        public string Eno { get; set; }
+        public int Eno { get; set; }
 
         // キャラ名
         public string CharacterName { get; set; }

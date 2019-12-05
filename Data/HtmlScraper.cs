@@ -22,13 +22,22 @@ namespace IbaraStatistics.Data
             DelayMS = delayMS;
         }
 
-        public async Task<IHtmlDocument> Scrape(string url)
+        public async Task<IHtmlDocument> Scrape(string url,bool localflg)
         {
-            HttpResponseMessage response = await client.GetAsync(new Uri(url)).ConfigureAwait(false);
-            using Stream stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-            IHtmlDocument doc = await parser.ParseDocumentAsync(stream).ConfigureAwait(false);
-            RefreshDelay();
-            return doc;
+            if(localflg == true)
+            {
+                using FileStream stream = File.OpenRead(url);
+                IHtmlDocument doc = await parser.ParseDocumentAsync(stream).ConfigureAwait(false);
+                return doc;
+            }
+            else
+            {
+                HttpResponseMessage response = await client.GetAsync(new Uri(url)).ConfigureAwait(false);
+                using Stream stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                IHtmlDocument doc = await parser.ParseDocumentAsync(stream).ConfigureAwait(false);
+                RefreshDelay();
+                return doc;
+            }
         }
 
         private Task previousDelayTask = Task.CompletedTask;
