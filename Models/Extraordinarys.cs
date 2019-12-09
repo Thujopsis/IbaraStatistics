@@ -13,8 +13,11 @@ namespace IbaraStatistics.Models
         // Eno
         public int Eno { get; set; }
 
-        // 異能
-        public int Extraordinary { get; set; }
+        // 異能名
+        public string ExtraordinaryName { get; set; }
+
+        // 異能レベル
+        public int ExtraordinaryLv { get; set; }
 
     }
 }

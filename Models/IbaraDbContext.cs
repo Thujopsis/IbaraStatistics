@@ -8,8 +8,6 @@ namespace IbaraStatistics.Models
 {
     public class IbaraDbContext : DbContext
     {
-        public IbaraDbContext(DbContextOptions options) : base (options) { }
-
         // キャラクター一覧テーブル
         public DbSet<Character> Characters { get; set; }
 

@@ -4,15 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using IbaraStatistics.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace IbaraStatistics.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ibaraController : ControllerBase
+    public class IbaraController : ControllerBase
     {
         IbaraDbContext Context { get; set; }
-        public ibaraController(IbaraDbContext context)
+        public IbaraController(IbaraDbContext context)
         {
             Context = context;
         }
@@ -26,6 +27,9 @@ namespace IbaraStatistics.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Character> GetCharacters() => Context.Characters.ToList();
+        public async Task<ActionResult<IEnumerable<Character>>> GetCharacter()
+        {
+            return await Context.Characters.ToListAsync();
+        }
     }
 }

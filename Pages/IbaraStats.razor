@@ -6,6 +6,12 @@
 
 <h3>キャラクターステータス</h3>
 
+<button class="btn btn-primary" @onclick="showstats">データ読み込み</button>
+
+@{ 
+    var db = Database
+}
+
 @if (workIbaraCharacterStats == null)
 {
     <p><em>Loading...</em></p>
@@ -37,9 +43,11 @@ else
 @code {
     CharacterStats workIbaraCharacterStats = null;
 
+    
+
     protected override async Task OnInitializedAsync()
     {
         var url = @"C:\Users\playn\source\repos\IbaraStatistics\html\[989] ソーンブラウン＝バレッタ－.html";
-        workIbaraCharacterStats = await CharacterStatsService.GetCharacterStats_Pejuta(url,true);
+        workIbaraCharacterStats = await CharacterStatsService.GetCharacterStats_Pejuta(url);
     }
 }

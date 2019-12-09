@@ -27,7 +27,8 @@ namespace IbaraStatistics.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Eno = table.Column<int>(nullable: false),
-                    Extraordinary = table.Column<int>(nullable: false)
+                    ExtraordinaryName = table.Column<string>(nullable: false),
+                    ExtraordinaryLv = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

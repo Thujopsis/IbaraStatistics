@@ -7,23 +7,16 @@ using AngleSharp;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
+using IbaraStatistics.Models;
 
 namespace IbaraStatistics.Data
 {
     public class CharacterStatsService
     {
-        public async Task<CharacterStats> GetCharacterStats_Pejuta(String path,bool localflg)
+        public async Task<CharacterStats> GetCharacterStats_Pejuta(String path)
         {
             var scraper = new HtmlScraper();
-            IHtmlDocument document;
-            if (localflg == true)
-            {
-                document = await scraper.Scrape(path,true).ConfigureAwait(true);
-            }
-            else
-            {
-                document = await scraper.Scrape(path,false).ConfigureAwait(true);
-            }
+            IHtmlDocument document = await scraper.Scrape(path).ConfigureAwait(true);
             var ceno = document.QuerySelector<IHtmlDivElement>("div.CEN");
             string eno = new Regex("\\d+$").Match(ceno.InnerHtml).Groups[0].Value;
 
@@ -50,14 +43,35 @@ namespace IbaraStatistics.Data
                                                       .First();
             string[] itms = charaItmTable.QuerySelectorAll<IHtmlTableCellElement>("tr:nth-child(n+2) > td:nth-child(2)").Select(td => td.TextContent).ToArray();
 
-            return new CharacterStats()
+            using (var db = new IbaraDbContext())
             {
-                Eno           = int.Parse(eno),
-                CharacterName = name,
-                Extraordinary = exs,
-                Item          = itms,
-                Skill         = skls,
-            };
+                //キャラクターデータ
+                var characterDb = db.Characters;
+                characterDb.Add(
+                    new Character
+                    {
+                        Eno = int.Parse(eno),
+                        Name = name,
+                    });
+
+                //異能
+                var ExtraordinarysDB = db.Extraordinarys;
+                ExtraordinarysDB.Add(
+                    new Extraordinarys
+                    {
+                        Eno = int.Parse(eno),
+                        Extraordinary = exs,
+                    });
+            }
+
+                return new CharacterStats()
+                {
+                    Eno = int.Parse(eno),
+                    CharacterName = name,
+                    Extraordinary = exs,
+                    Item = itms,
+                    Skill = skls,
+                };
         }
     }
 }

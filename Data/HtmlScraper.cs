@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using AngleSharp.Html.Parser;
 using AngleSharp.Html.Dom;
+using System.Text.RegularExpressions;
 
 namespace IbaraStatistics.Data
 {
@@ -22,9 +23,9 @@ namespace IbaraStatistics.Data
             DelayMS = delayMS;
         }
 
-        public async Task<IHtmlDocument> Scrape(string url,bool localflg)
+        public async Task<IHtmlDocument> Scrape(string url)
         {
-            if(localflg == true)
+            if(!new Regex("^h").IsMatch(url))
             {
                 using FileStream stream = File.OpenRead(url);
                 IHtmlDocument doc = await parser.ParseDocumentAsync(stream).ConfigureAwait(false);
